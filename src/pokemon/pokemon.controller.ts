@@ -4,10 +4,15 @@ import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { ParseMongoIdPipe } from '@/common/pipes/parse-mongo-id.pipe';
 import { QueriesParametersDto } from './dto/queriesParameters.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('pokemon')
 export class PokemonController {
-   constructor(private readonly pokemonService: PokemonService) { }
+
+   constructor(
+      private readonly pokemonService: PokemonService,
+      private readonly configService: ConfigService
+   ) {}
 
    @Post()
    @HttpCode(HttpStatus.CREATED)
