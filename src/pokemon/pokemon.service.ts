@@ -4,6 +4,7 @@ import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { isValidObjectId, Model } from 'mongoose';
 import { Pokemon } from './entities/pokemon.entity';
 import { InjectModel } from '@nestjs/mongoose';
+import { QueriesParametersDto } from './dto/queriesParameters.dto';
 
 @Injectable()
 export class PokemonService {
@@ -25,8 +26,14 @@ export class PokemonService {
       }
    }
 
-   findAll() {
-      return `This action returns all pokemon`;
+   findAll( queries: QueriesParametersDto ) {
+      const { size = 20, page = 1 } = queries
+      return this.pokemonModel.find()
+         .limit( size )
+         .skip( page )
+         .sort( {
+            no: 1
+         } ).select( "-__v" );
    }
 
    async findOne( term: string) {
